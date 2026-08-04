@@ -1,3 +1,16 @@
+# ============================================================================
+# recapp9.py  —  Recapp: SA query delivery and response recording (GUI, v9)
+# ============================================================================
+# Purpose:  Tkinter app that plays the spoken situation-awareness query
+#           prompts, records the operator's spoken response, and flags the
+#           end of each question and answer as timestamped events.
+# Inputs:   query prompt audio; participant ID and condition (GUI)
+# Outputs:  per-session response .wav files; flagged-events CSV
+# Usage:    python recapp9.py
+# Requires: sounddevice, numpy, Pillow, tkinter
+# Part of:  EyeTrack Remote-SA Tools (see repo README). Contains no data.
+# ============================================================================
+
 import sys
 import os
 import numpy as np

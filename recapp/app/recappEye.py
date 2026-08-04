@@ -1,3 +1,15 @@
+# ============================================================================
+# recappEye.py  —  Recapp query/response recorder (eye-tracking session variant)
+# ============================================================================
+# Purpose:  As recapp9, delivering and recording the spoken SA queries and
+#           flagging question/answer events during an eye-tracking session.
+# Inputs:   query prompt audio; participant ID and condition (GUI)
+# Outputs:  per-session response .wav files; flagged-events CSV
+# Usage:    python recappEye.py
+# Requires: sounddevice, numpy, Pillow, tkinter
+# Part of:  EyeTrack Remote-SA Tools (see repo README). Contains no data.
+# ============================================================================
+
 import sys
 import os
 import numpy as np

@@ -1,3 +1,17 @@
+# ============================================================================
+# Batch_Synch_Script.py  —  batch speech-recognition event logging and sync
+# ============================================================================
+# Purpose:  Across all participants, transcribe the response recordings with
+#           Whisper, match each response to its expected answer, and locate the
+#           'mark' anchor to synchronise video with audio, producing
+#           per-participant event logs.
+# Inputs:   sorted per-participant data (videos, WAVs, flagged-events CSVs)
+# Outputs:  per-participant synchronised event CSVs
+# Usage:    python Batch_Synch_Script.py
+# Requires: openai-whisper, moviepy, pandas
+# Part of:  EyeTrack Remote-SA Tools (see repo README). Contains no data.
+# ============================================================================
+
 import whisper
 import pandas as pd
 import moviepy.editor as mp
@@ -7,7 +21,7 @@ import re
 from tqdm import tqdm
 
 # --- CONFIGURATION ---
-DATA_DIR = "Data_Sorted"   # The new folder we created
+DATA_DIR = "Data_Sorted"   # root of the sorted per-participant data
 FLAGGED_CSV = "flagged_events.csv"
 COLLISIONS_CSV = "collisions.csv"
 ANCHOR_WORD = "mark"

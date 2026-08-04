@@ -1,3 +1,12 @@
+# ============================================================================
+# audio_player.py  —  threaded WAV playback with end-tone and completion callback
+# ============================================================================
+# Purpose:  AudioPlayer class used by Recapp to play a clip, emit an
+#           end-of-clip tone, and fire a callback on completion.
+# Requires: sounddevice, numpy
+# Part of:  EyeTrack Remote-SA Tools (see repo README). Contains no data.
+# ============================================================================
+
 import sounddevice as sd
 import numpy as np
 import wave

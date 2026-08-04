@@ -1,3 +1,16 @@
+# ============================================================================
+# AI_Clapper.py  —  Whisper-based audio synchronisation (single-file prototype)
+# ============================================================================
+# Purpose:  Transcribe the scene video's audio and the app WAV with Whisper,
+#           locate a spoken 'mark' anchor in each, and report the timeline
+#           offset that synchronises them.
+# Inputs:   one scene video (.mp4) and one response recording (.wav)
+# Outputs:  printed synchronisation offset
+# Usage:    python AI_Clapper.py
+# Requires: openai-whisper, moviepy, pandas
+# Part of:  EyeTrack Remote-SA Tools (see repo README). Contains no data.
+# ============================================================================
+
 import whisper
 import pandas as pd
 import moviepy.editor as mp
@@ -16,7 +29,7 @@ def extract_audio(video_path):
     video.audio.write_audiofile(audio_path, logger=None)
     return audio_path
 
-# 🔊 NEW FUNCTION: The 1000% Volume Booster!
+# Boost the (often quiet) app audio before transcribing.
 def boost_audio(audio_path):
     print(f"Boosting volume of {audio_path} by 10x...")
     boosted_path = "temp_boosted_audio.wav"

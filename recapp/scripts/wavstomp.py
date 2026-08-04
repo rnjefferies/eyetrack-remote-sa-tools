@@ -1,3 +1,15 @@
+# ============================================================================
+# wavstomp.py  —  speech-segment detection and Q/A timing from recordings
+# ============================================================================
+# Purpose:  Detect speech segments in the recorded sessions (voice-activity
+#           detection), separate questions from answers by expected
+#           alternation, log segment timings, and plot annotated waveforms.
+# Inputs:   session .wav files; question-flag CSV
+# Outputs:  segment-timing CSV; waveform plots
+# Requires: librosa, webrtcvad, numpy, matplotlib
+# Part of:  EyeTrack Remote-SA Tools (see repo README). Contains no data.
+# ============================================================================
+
 import librosa
 import numpy as np
 import matplotlib.pyplot as plt

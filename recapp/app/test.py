@@ -1,3 +1,11 @@
+# ============================================================================
+# test.py  —  quick audio-output check (plays a test tone)
+# ============================================================================
+# Usage:    python test.py
+# Requires: sounddevice, numpy
+# Part of:  EyeTrack Remote-SA Tools (see repo README). Contains no data.
+# ============================================================================
+
 import sounddevice as sd
 import numpy as np
 

@@ -1,3 +1,15 @@
+# ============================================================================
+# generate_dummy_audio.py  —  create placeholder query-prompt tones (testing)
+# ============================================================================
+# Purpose:  Generate dummy .wav tone files (one per label in labels.csv) so
+#           the Recapp GUI can be exercised without the real prompt audio.
+# Inputs:   labels.csv
+# Outputs:  dummy .wav files in audio/
+# Usage:    python generate_dummy_audio.py
+# Requires: numpy
+# Part of:  EyeTrack Remote-SA Tools (see repo README). Contains no data.
+# ============================================================================
+
 import csv
 import wave
 import os

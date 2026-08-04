@@ -1,3 +1,17 @@
+# ============================================================================
+# i_Drive_Master_tele_sync_plot.py  —  align event markers to telemetry, plot and adjust
+# ============================================================================
+# Purpose:  Align event markers with the 1000 Hz workstation driving telemetry
+#           per route, plot the two together, and allow manual adjustment of the
+#           alignment (turn overrides).
+# Inputs:   sorted event data; driving telemetry (ROS steering / joystick)
+# Outputs:  per-route/participant synchronisation plots
+# Usage:    python i_Drive_Master_tele_sync_plot.py
+# Requires: pandas, matplotlib
+# Part of:  EyeTrack Remote-SA Tools (see repo README). Contains no data;
+#           edit the paths in CONFIGURATION to point at your own files.
+# ============================================================================
+
 import pandas as pd
 import matplotlib.pyplot as plt
 import re

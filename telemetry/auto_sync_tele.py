@@ -1,3 +1,18 @@
+# ============================================================================
+# auto_sync_tele.py  —  align event markers to workstation joystick telemetry
+# ============================================================================
+# Purpose:  Using shared markers (recording begin, wheel/pedal-in), align the
+#           event log with the 1000 Hz joystick telemetry and write the
+#           synchronised telemetry out. Non-plotting counterpart of
+#           i_Drive_Master_tele_sync_plot.py.
+# Inputs:   events CSV; joystick telemetry CSV
+# Outputs:  synced telemetry CSV
+# Usage:    python auto_sync_tele.py
+# Requires: pandas
+# Part of:  EyeTrack Remote-SA Tools (see repo README). Contains no data;
+#           edit the paths in CONFIGURATION to point at your own files.
+# ============================================================================
+
 import pandas as pd
 import re
 import os

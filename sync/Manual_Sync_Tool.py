@@ -1,3 +1,15 @@
+# ============================================================================
+# Manual_Sync_Tool.py  —  manual video/audio synchronisation and event labelling
+# ============================================================================
+# Purpose:  Align the scene/gaze video with the audio recording on a common
+#           timeline and mark/label events, preserving AI-detected events.
+# Inputs:   scene video (.mp4), audio recording (.wav), event CSV
+# Outputs:  updated event CSV with synchronised, labelled markers
+# Usage:    python Manual_Sync_Tool.py   (PyQt GUI)
+# Requires: PyQt5, pandas, numpy, scipy, matplotlib
+# Part of:  EyeTrack Remote-SA Tools (see repo README). Contains no data.
+# ============================================================================
+
 import sys, os, pandas as pd, re, numpy as np
 from scipy.io import wavfile
 import matplotlib.pyplot as plt

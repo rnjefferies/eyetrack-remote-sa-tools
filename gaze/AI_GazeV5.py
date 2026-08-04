@@ -1,6 +1,17 @@
-# ==============================================================================
-# Interactive Gaze and Timeline Tracking Analysis Script (AI POWERED)
-# ==============================================================================
+# ============================================================================
+# AI_GazeV5.py  —  interactive gaze-to-scene mapping and AOI dwell analysis
+# ============================================================================
+# Purpose:  Map operators' gaze onto the scene video, define areas of interest
+#           by YOLO object detection (with per-operator gaze recalibration and
+#           manual box correction), classify fixations, and compute
+#           area-of-interest dwell over event windows.
+# Inputs:   scene video, gaze data, a JSON config, a trained YOLO model
+# Outputs:  per-frame/AOI tracking data and dwell metrics
+# Usage:    python AI_GazeV5.py --config <config.json>
+# Requires: opencv-python, ultralytics (YOLO), numpy, pandas
+# Part of:  EyeTrack Remote-SA Tools (see repo README). Contains no data.
+# ============================================================================
+
 
 import cv2
 import pandas as pd
