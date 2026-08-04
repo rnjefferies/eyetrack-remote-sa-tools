@@ -87,8 +87,7 @@ requires them to be built first.
 ## Requirements
 Python 3. Depending on the tool, key dependencies include OpenCV, ultralytics (YOLO),
 openai-whisper, moviepy, PyQt5, pandas, numpy, scipy, matplotlib, and Dash/Plotly (the
-dashboard). See `recapp/requirements.txt` for the query application; install the others
-per tool as needed.
+dashboard). Each tool folder contains a `requirements.txt`; install the one for the tool you need (ideally in a virtual environment). `event_logging` and `gaze` pull in large dependencies (PyTorch, via openai-whisper and ultralytics), and `event_logging` also needs `ffmpeg` installed on the system.
 
 ## Licence
 MIT. See `LICENSE`.

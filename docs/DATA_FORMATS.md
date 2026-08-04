@@ -75,7 +75,7 @@ Notes that recur below:
 - `advanced_metrics`: `{enabled, pre_event_window_s (default 5.0), post_event_window_s (default 5.0)}`.
 - `manual_overrides`, `headless_overrides`, `metadata`.
 
-Referenced data files (Pupil Labs exports unless noted):
+Referenced data files. These are the export files produced by **Pupil Labs** software (from the wearable eye tracker used in the study, the Pupil Labs Invisible); the column names below follow the Pupil Labs export format:
 - `fixations.csv` — includes `timestamp_sec`, `fixation id`.
 - `events.csv` — `name`, `timestamp [ns]`; must contain the `recording.begin` marker.
 - `saccades.csv` — `timestamp_sec`, `amplitude [px]`, `mean velocity [px/s]`.
@@ -149,4 +149,4 @@ synchronisation plots (i_Drive).
 - `SA_Dashboard_Ops.csv` — operator-level dial means, base-rate lift, triage score/rank.
 - `SA_Dashboard_Meta.csv` — calibrated thresholds (`amber_thr`, `red_thr`, …).
 
-**Requires** `pandas`, `numpy`, `scikit-learn`, `xgboost` (builder); `dash`, `plotly` (app).
+**Requires** `pandas`, `numpy`, `scikit-learn`, `scipy`, `xgboost` (builder); `dash`, `plotly` (app).

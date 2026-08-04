@@ -1,0 +1,6 @@
+# ultralytics pulls in PyTorch.
+opencv-python
+ultralytics
+pandas
+numpy
+tqdm

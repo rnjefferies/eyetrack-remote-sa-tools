@@ -1,0 +1,6 @@
+# Also requires ffmpeg installed on the system (used by moviepy/whisper).
+# openai-whisper pulls in PyTorch.
+openai-whisper
+moviepy
+pandas
+tqdm
