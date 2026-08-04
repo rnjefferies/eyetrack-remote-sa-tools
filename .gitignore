@@ -1,0 +1,22 @@
+# Data — never commit participant or study data
+participants/
+driving_data/
+Data_Sorted/
+data/
+audio/
+*.wav
+*.mp4
+*.mov
+*.csv
+*.pt
+*.pkl
+*.npy
+*.npz
+
+# Environments / caches / OS
+venv/
+.venv/
+env/
+__pycache__/
+*.pyc
+.DS_Store
