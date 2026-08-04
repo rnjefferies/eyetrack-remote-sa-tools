@@ -32,8 +32,8 @@ TURN_OVERRIDES = {
     # "23_RT_R5": 1,    # Route 2  = "01_RT_R2": 14, "04_RT_R2": 1, 
 }
 
-BASE_EYETRACK_DIR = "/Users/Ryan/EyeTrack/Data_Sorted"
-BASE_DRIVING_DIR = "/Users/Ryan/EyeTrack/driving_data"
+BASE_EYETRACK_DIR = "Data_Sorted"
+BASE_DRIVING_DIR = "driving_data"
 
 # ==========================================
 # 1. TIMING & SYNC LOGIC

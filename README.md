@@ -1,8 +1,8 @@
 # EyeTrack Remote-SA Tools
 
 Software developed for the remote-operation situation-awareness (SA) studies reported in
-the thesis *Measuring Situation Awareness in the Remote Operation of a Live Vehicle*
-(R. Jefferies). The tools deliver SA queries during live remote driving and build a
+the thesis *Measuring Situation Awareness in the Remote Operation of a Live Vehicle*.
+The tools deliver SA queries during live remote driving and build a
 synchronised, multi-stream dataset from gaze, audio (spoken responses), and 1000 Hz
 vehicle-control telemetry.
 

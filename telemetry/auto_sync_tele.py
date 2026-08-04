@@ -20,9 +20,9 @@ import os
 # ==========================================
 # CONFIGURATION
 # ==========================================
-EVENTS_CSV = "/Users/Ryan/EyeTrack/Data_Sorted/R1_02/events_with_AI.csv"
-JOYSTICK_CSV = "/Users/Ryan/EyeTrack/driving_data/participant_02_RT/condition_1/_Operator_InputDevices_joystick.csv"
-OUTPUT_CSV = "/Users/Ryan/EyeTrack/driving_data/participant_02_RT/condition_1/synced_joystick_telemetry.csv"
+EVENTS_CSV = "Data_Sorted/R1_XX/events_with_AI.csv"
+JOYSTICK_CSV = "driving_data/participant_XX/condition_1/_Operator_InputDevices_joystick.csv"
+OUTPUT_CSV = "driving_data/participant_XX/condition_1/synced_joystick_telemetry.csv"
 
 def get_video_markers(filepath):
     """Gets the relative timestamps for both the wheel and the pedal from the video."""
