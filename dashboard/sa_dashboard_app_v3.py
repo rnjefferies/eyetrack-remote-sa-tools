@@ -21,11 +21,13 @@ D  = pd.read_csv('SA_Dashboard_Data.csv')
 OP = pd.read_csv('SA_Dashboard_Ops.csv')
 M  = pd.read_csv('SA_Dashboard_Meta.csv').iloc[0]
 AMBER, RED = float(M['amber_thr']), float(M['red_thr'])
+
 # AMBER/RED are the SMOOTHED BAND's own recall-targeted cut-points (~85% / ~50% recall on
 # attn_risk_recent): they drive the trigger and the traffic-light read-out, which read the band.
 # The confidence check judges a SINGLE probe, so its per-probe clause (line ~78) compares against
 # the composite's OWN 50%-recall line, not the band RED -- the EWMA compresses the scale, so the
 # two rulers differ (they coincide numerically on this sample only because attn_risk is quantised).
+
 from sklearn.metrics import precision_recall_curve as _prc
 _pp, _pr, _pt = _prc(D['any_fail'], D['attn_risk'])
 RED_PROBE = float(_pt[np.argmin(np.abs(_pr[:-1] - 0.50))])
@@ -52,6 +54,7 @@ CASE_LABEL = f'R{CASE_RT}Q{CASE_Q}'
 #   * a HIGH reading (>=6) at a Red warning raises the overconfidence flag (unchanged).
 # Baseline-relative interpretation (reading a score as a drop from the operator's own
 # norm) is deferred -- it needs more per-operator training data (noted for the report).
+
 CONF_LEVEL = float(M['conf_level']) if 'conf_level' in M.index else 0.68
 LO_CONF, HI_CONF = 4, 6
 LAPSE_LEVEL = 0.90   # hard-rule level for an overt control lapse (a hazard event -> Red outright)
@@ -64,9 +67,11 @@ def _augment_confidence_v2(df):
     df['scheduled'] = (seq_in == np.minimum(1, n_op - 1)) | (seq_in == (n_op // 2))
     red_now  = df['attn_risk_recent'] >= RED                  # band Red at this probe (state)
     red_prev = df.groupby('Participant_ID')['attn_risk_recent'].shift(1).fillna(0.0) >= RED
+    
     # PROMPT POLICY C: request a rating only when the Red warning PERSISTS (>=2 probes in a row),
     # not on a one-off flicker. Fewer, cleaner prompts (~3.8/op vs 5.0), and it sharpens the
     # confirmed signal (sustained Red is more genuinely risky); matches the persistence-aware design.
+    
     sustained_red = red_now & red_prev
     obj_red  = red_now | (df['attn_risk'] >= RED_PROBE - 1e-9)  # classification: risk elevated AT this probe (per-probe ruler)
     low, high = df['Target_Confidence'] <= LO_CONF, df['Target_Confidence'] >= HI_CONF
@@ -74,25 +79,31 @@ def _augment_confidence_v2(df):
     df['conf_prompt']   = (df['scheduled'] | sustained_red).astype(int)
     df['sched_prompt']  = (df['scheduled'] & ~sustained_red).astype(int)
     prompt = df['conf_prompt'] == 1
+    
     # the confidence check is a PER-PROBE judgement (the operator is rating THIS answer), so
     # classification compares confidence to the objective risk at this probe -- the recent-state
     # OR the single probe at Red -- not only the smoothed recent-state.
+    
     df['conf_confirmed'] = (prompt & obj_red & low).astype(int)   # elevated + agrees      (~64% fail)
     df['overconf_flag']  = (prompt & obj_red & high).astype(int)  # elevated + confident   (silent-miss risk)
     df['conf_sched_low'] = (prompt & ~obj_red & low).astype(int)  # objective quiet + low  (aware risk)
     df['conf_escalate']  = ((df['conf_confirmed'] == 1) | (df['conf_sched_low'] == 1)).astype(int)
+    
     # HARD RULE (schematic): an overt pre-query control lapse (hazard encountered) forces the
     # state to Red regardless of the soft dials -- a categorical hazard event, not a calibrated
     # probability. It injects a hard-Red level that the recent-state EWMA then carries and decays.
+    
     conf_inj  = np.where(df['conf_escalate'] == 1, CONF_LEVEL, 0.0)
     lapse_inj = np.where(df['lapse'] == 1, LAPSE_LEVEL, 0.0)
     df['risk_aug'] = np.maximum.reduce([df['attn_risk'].to_numpy(dtype=float), conf_inj, lapse_inj])
     df['attn_risk_recent_adj'] = df.groupby('Participant_ID')['risk_aug'].transform(
         lambda x: x.ewm(span=SPAN, adjust=False).mean())
+    
     # OVERCONFIDENCE HOLD ("warning stands"): an unacknowledged objective-Red does not decay
     # below Red while the operator stays confident. This is a FLOOR on the displayed state
     # (not injected into the EWMA, so it holds the current reading without inflating later
     # probes) -- motivated by overconfident probes being ~2x enriched for actual hazards.
+    
     oc = df['overconf_flag'] == 1
     df.loc[oc, 'attn_risk_recent_adj'] = np.maximum(df.loc[oc, 'attn_risk_recent_adj'], RED)
     df['attn_risk_recent_adj_prev'] = df.groupby('Participant_ID')['attn_risk_recent_adj'].shift(1)
@@ -112,6 +123,7 @@ def _augment_ops_v2(D, OP):
     # class is injected at its EMPIRICAL failure rate, NOT the 0.90 hard-Red DISPLAY level
     # (which would let rare hazards dominate the mean and rank no better than objective).
     # Lifts Spearman(triage, fail-rate) from ~0.58 to ~0.66 on this sample.
+    
     fr = lambda m: float(D.loc[m, 'any_fail'].mean()) if m.any() else 0.0
     lvl_conf, lvl_sched, lvl_lapse = fr(D['conf_confirmed'] == 1), fr(D['conf_sched_low'] == 1), fr(D['lapse'] == 1)
     inj_conf = np.where(D['conf_confirmed'] == 1, lvl_conf,
@@ -247,9 +259,11 @@ def timeline_figure(pid, cursor, show_conf=True):
     fig = go.Figure()
     fig.add_hrect(y0=RED, y1=1,      fillcolor=C_RED,   opacity=0.10, line_width=0)
     fig.add_hrect(y0=AMBER, y1=RED,  fillcolor=C_AMBER, opacity=0.10, line_width=0)
+    
     # single recent-state band = the OPERATIVE state. In the live app this is the adjusted EWMA
     # (objective dials + lapse hard rule + confidence checks); for the manuscript figure
     # (show_conf=False) it is the objective-only EWMA. Escalations show via the event markers.
+    
     band = s['attn_risk_recent_adj'] if show_conf else s['attn_risk_recent']
     fig.add_trace(go.Scatter(x=x, y=band, mode='lines', name='recent risk',
                              line=dict(color='#9fb3c8', width=6), opacity=0.30, hoverinfo='skip'))

@@ -7,8 +7,42 @@ synchronised, multi-stream dataset from gaze, audio (spoken responses), and 1000
 vehicle-control telemetry.
 
 > **No data is included in this repository.** All participant recordings, telemetry, and
-> derived datasets are excluded (see `.gitignore`). Scripts contain hardcoded local paths
-> in their `CONFIGURATION` sections that must be edited to point at your own data.
+> derived datasets are excluded (see `.gitignore`). Scripts contain example paths in their
+> `CONFIGURATION` sections that must be edited to point at your own data.
+>
+> These are research tools tied to the study's data formats and setup, shared for
+> transparency and as an adaptable reference rather than as turnkey software. Reusing them
+> requires your own data in the formats documented in [`docs/DATA_FORMATS.md`](docs/DATA_FORMATS.md),
+> plus, for the gaze tool, a scene-object detector trained on your own footage.
+
+## Pipeline
+
+The tools form a data-collection and processing pipeline; the analysis/modelling that
+consumes its output is separate and not included here.
+
+```
+recapp                      deliver SA queries, record spoken responses, flag Q/A + collisions
+  │        (flagged_events.csv, collisions.csv, response .wav)
+  ▼
+wavstomp  OR  event_logging derive response timing; or Whisper-transcribe responses and
+  │                         locate the "mark" anchor to sync video↔audio
+  │        (per-participant event log: name, timestamp_sec)
+  ▼
+sync (Manual_Sync_Tool)     align scene/gaze video with audio on one timeline; label events
+  │
+  ▼
+gaze (AI_GazeV5)            map gaze onto the scene video; AOI dwell by object detection
+  │        (per-probe gaze/AOI features)
+  ▼
+telemetry (i_Drive/auto)    align event markers to the 1000 Hz workstation telemetry
+  │        (synced telemetry; plots)
+  ▼
+[feature extraction → route<i>_ml_ready.csv]   ← study analysis pipeline, NOT in this repo
+  ▼
+dashboard (_build_dashboard_data → sa_dashboard_app_v3)   operator SA-state monitor
+```
+
+Full input/output schemas for every step are in [`docs/DATA_FORMATS.md`](docs/DATA_FORMATS.md).
 
 ## Tools
 
