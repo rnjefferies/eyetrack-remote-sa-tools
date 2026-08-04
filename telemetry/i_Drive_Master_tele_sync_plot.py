@@ -269,7 +269,7 @@ def main():
         events_df = pd.read_csv(EVENTS_CSV)
         create_plots(merged_df, events_df, markers, p_id, TARGET_ROUTE, CONDITION_DIR)
         
-    print(f"\n✅ Processing Complete for Route {TARGET_ROUTE}!")
+    print(f"\nProcessing Complete for Route {TARGET_ROUTE}!")
 
 if __name__ == "__main__":
     main()

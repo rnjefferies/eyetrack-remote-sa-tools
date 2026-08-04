@@ -331,7 +331,7 @@ class PrecisionMapper(QMainWindow):
             self.btn_save.setEnabled(True)
             self.btn_view.setEnabled(True) 
             self.manual_markers = [] 
-            print(f"✅ Loaded {self.target_folder}. Ready to add markers.")
+            print(f"Loaded {self.target_folder}. Ready to add markers.")
 
     def save_all(self):
         ai_file_path = os.path.join(self.target_folder, "events_with_AI.csv")
@@ -384,7 +384,7 @@ class PrecisionMapper(QMainWindow):
         final_df.to_csv(ai_file_path, index=False)
         
         self.lbl_v_status.setText(f"💾 SAVED! Added {len(self.manual_markers)} manual markers.")
-        print(f"✅ Success: Updated {ai_file_path}")
+        print(f"Success: Updated {ai_file_path}")
         
         self.manual_markers = []
         if hasattr(self, 'events_dialog') and self.events_dialog.isVisible():

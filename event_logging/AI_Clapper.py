@@ -60,7 +60,7 @@ def test_clapperboard_sync():
     video_anchor = find_anchor_time(video_result, ANCHOR_WORD)
     
     # --- STEP 2: Process the App's WAV File ---
-    # 🔊 BOOST THE APP AUDIO BEFORE TRANSCRIBING!
+    # Boost the app audio before transcribing.
     boosted_wav_path = boost_audio(WAV_FILE)
     print(f"Transcribing Boosted App Audio...")
     app_result = model.transcribe(boosted_wav_path, word_timestamps=True, initial_prompt="mark")
@@ -87,7 +87,7 @@ def test_clapperboard_sync():
     offset = video_anchor - app_anchor
     
     print("\n" + "="*50)
-    print("🎬 SYNCHRONIZATION RESULTS")
+    print("SYNCHRONIZATION RESULTS")
     print("="*50)
     print(f"Eye-Tracking Video Anchor ('{ANCHOR_WORD}'): {video_anchor:.3f} seconds")
     print(f"App WAV File Anchor ('{ANCHOR_WORD}'):       {app_anchor:.3f} seconds")

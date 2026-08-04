@@ -190,7 +190,7 @@ def run_recalibration(config, fixations_df, cap, map1, map2, anchor_time=None):
 
         if confirmed:
             recalibration_offset = (click_position[0] - raw_x, click_position[1] - raw_y)
-            print(f"✅ Offset calculated: {recalibration_offset} using Fixation {fix_id}.")
+            print(f"Offset calculated: {recalibration_offset} using Fixation {fix_id}.")
             cv2.destroyAllWindows()
             return recalibration_offset
             
@@ -212,7 +212,7 @@ def main(config_path):
         
     manual_overrides = config.get('manual_overrides', [])
     drawn_overrides = {} 
-    active_cv2_trackers = {} # 🟢 Smart Optical Tracker Dictionary
+    active_cv2_trackers = {} # Smart Optical Tracker Dictionary
 
     DATA_DIR = files['data_directory']
     video_path = os.path.join(DATA_DIR, files['video_file'])
@@ -311,7 +311,7 @@ def main(config_path):
             
             with open(config_path, 'w') as f:
                 json.dump(config, f, indent=4)
-            print(f"✅ Config updated successfully! Next run will use these offsets automatically.")
+            print(f"Config updated successfully! Next run will use these offsets automatically.")
             
     elif headless['use_headless_settings'] and not settings['recalibrate_coordinates']:
         recalibration_offset = (int(headless.get('recalibration_offset_x', 0)), int(headless.get('recalibration_offset_y', 0)))
@@ -390,7 +390,7 @@ def main(config_path):
                                 x, y, w, h = min(x1, x2), min(y1, y2), abs(x2 - x1), abs(y2 - y1)
                                 drawn_overrides[idx] = [x, y, w, h]
                                 
-                                # 🟢 SMART TRACKER INITIALIZATION
+                                # SMART TRACKER INITIALIZATION
                                 try:
                                     tracker = cv2.TrackerCSRT_create()
                                 except AttributeError:
@@ -399,7 +399,7 @@ def main(config_path):
                                 tracker.init(processing_frame, (x, y, w, h))
                                 active_cv2_trackers[idx] = tracker
                                 
-                                print(f"✅ Box for '{override_aoi}' captured! Tracking visually until {b_end:.2f}s...")
+                                print(f"Box for '{override_aoi}' captured! Tracking visually until {b_end:.2f}s...")
                                 cv2.destroyWindow("Draw Override")
                                 break
                                     
@@ -432,7 +432,7 @@ def main(config_path):
                     base_class_name = ai_model.names[int(cls)]
                     
                     # ==========================================
-                    # 🛑 SPATIAL ANCHORING: THE WHEEL FIX
+                    # SPATIAL ANCHORING: THE WHEEL FIX
                     # ==========================================
                     if base_class_name in ['lwheel', 'rwheel']:
                         center_x = x + (w / 2)
@@ -464,7 +464,7 @@ def main(config_path):
                 
                 if b_start <= true_time_s <= b_end and idx in drawn_overrides:
                     
-                    # 🟢 UPDATE BOX POSITION BASED ON HEAD MOVEMENT
+                    # UPDATE BOX POSITION BASED ON HEAD MOVEMENT
                     if idx in active_cv2_trackers:
                         success, new_box = active_cv2_trackers[idx].update(processing_frame)
                         if success:
@@ -508,7 +508,7 @@ def main(config_path):
     BUFFER_SEC = 15.0 
     aoi_valid_windows = {}
     
-    # 🛑 ROUTE 3, ROUTE 4, ROUTE 5 SIGNS IMMUNITY LIST
+    # ROUTE 3, ROUTE 4, ROUTE 5 SIGNS IMMUNITY LIST
     for base_aoi, q_list in aoi_mapping.items():
         if base_aoi in [
             'bumper', 'speed', 'map', 'lwheel', 'rwheel', 'cone', 'name', 
@@ -531,7 +531,7 @@ def main(config_path):
     removed_counts = collections.defaultdict(int)
 
     for msec_str in list(tracking_data_history.keys()):
-        current_sec_filter = float(msec_str) / 1000.0  # 🛑 TIME DILATION TYPO FIXED (was 2000.0)
+        current_sec_filter = float(msec_str) / 1000.0
         frame_boxes = tracking_data_history[msec_str]
         keys_to_remove = []
         
@@ -552,9 +552,9 @@ def main(config_path):
 
     if removed_counts:
         for base_name, count in removed_counts.items():
-            print(f"✅ Cleaned up {count} hallucinated frames for '{base_name}'.")
+            print(f"Cleaned up {count} hallucinated frames for '{base_name}'.")
     else:
-        print("✅ Timeline clean! No out-of-bounds hallucinations detected.")
+        print("Timeline clean! No out-of-bounds hallucinations detected.")
 
     print("\n--- Interpolating Dropped Bounding Boxes (Bridging Gaps) ---")
     MAX_GAP_MSEC = 1000.0 
@@ -670,7 +670,7 @@ def main(config_path):
         current_aoi_bboxes = tracking_data_history.get(f"{current_msec:.2f}", {})
 
        # =========================================================
-        # ✅ JSON-DRIVEN DYNAMIC AOI PADDING
+        # JSON-DRIVEN DYNAMIC AOI PADDING
         # =========================================================
         custom_padding = settings.get('aoi_padding', {})
         
@@ -876,7 +876,7 @@ def main(config_path):
         })
 
         if aoi_name != 'cellboundary':
-            # ✅ Only chop if the last part is a tracking number!
+            # Only chop if the last part is a tracking number!
             if aoi_name.rsplit('_', 1)[-1].isdigit():
                 base_aoi_name = aoi_name.rsplit('_', 1)[0]
             else:

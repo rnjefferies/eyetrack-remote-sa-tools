@@ -287,8 +287,8 @@ class AudioRecorderApp:
             return
 
         # Reset collision tracking when a new session starts
-        self.collisions = []  # ✅ Clear previous session's collisions
-        self.collision_flags = {}  # ✅ Reset the dictionary tracking flagged collisions
+        self.collisions = []  # Clear previous session's collisions
+        self.collision_flags = {}  # Reset the dictionary tracking flagged collisions
 
         # Extract the base condition (e.g., "A" from "A_R") for directory matching
         base_condition = condition_input.split('_')[0]
@@ -602,7 +602,7 @@ class AudioRecorderApp:
 
         if not self.collisions:
             print("No new collisions to save.")
-            return  # ✅ Do not write anything if there are no new collisions
+            return  # Do not write anything if there are no new collisions
 
         try:
             # Ensure we only write new session's collisions and do not reload old ones

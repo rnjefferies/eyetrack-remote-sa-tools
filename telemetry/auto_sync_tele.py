@@ -152,7 +152,7 @@ def main():
     synced_df = parse_and_sync_ros_joystick(JOYSTICK_CSV, ros_time, rel_wheel)
     synced_df.to_csv(OUTPUT_CSV, index=False)
     
-    print(f"✅ Success! Saved perfectly synced telemetry to: {OUTPUT_CSV}")
+    print(f"Success! Saved perfectly synced telemetry to: {OUTPUT_CSV}")
 
 if __name__ == "__main__":
     main()

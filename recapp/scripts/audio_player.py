@@ -50,7 +50,6 @@ class AudioPlayer:
                 with sd.OutputStream(channels=channels, samplerate=sample_rate, callback=callback, dtype=dtype, blocksize=4096):
                     sd.sleep(int(wf.getnframes() / sample_rate * 1000))  # Sleep until audio playback is complete
 
-            # print("Main audio playback complete. Playing end tone...")
             # self.play_saved_tone(self.tone_file)
         finally:
             print("Playback finished.")
