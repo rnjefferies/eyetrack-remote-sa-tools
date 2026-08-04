@@ -38,6 +38,7 @@ telemetry (i_Drive/auto)    align event markers to the 1000 Hz workstation telem
   │        (synced telemetry; plots)
   ▼
 [feature extraction → route<i>_ml_ready.csv]   ← study analysis pipeline, NOT in this repo
+  |
   ▼
 dashboard (_build_dashboard_data → sa_dashboard_app_v3)   operator SA-state monitor
 ```
