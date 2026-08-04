@@ -26,9 +26,14 @@ from sklearn.metrics import precision_recall_curve, roc_auc_score
 from scipy.stats import spearmanr
 import xgboost as xgb
 
+import glob, re
 frames = []
-for i in range(1, 7):
-    d = pd.read_csv(f"route{i}_ml_ready.csv"); d['Route'] = i; frames.append(d)
+route_files = sorted(glob.glob("route*_ml_ready.csv"))
+if not route_files:
+    raise SystemExit("No route*_ml_ready.csv files found in the working directory.")
+for _path in route_files:
+    _m = re.search(r"route(\d+)_ml_ready\.csv", _path)
+    d = pd.read_csv(_path); d['Route'] = int(_m.group(1)) if _m else 0; frames.append(d)
 df = pd.concat(frames, ignore_index=True).fillna(0.0)
 df = df[df['Target_Latency'] >= 0].reset_index(drop=True)
 for c in [c for c in df.columns if 'Before_Raw_Dwell' in c]:
@@ -201,4 +206,3 @@ print("CONFIDENCE CHECK (Red-triggered): prompts=%d (%.0f%%) | confirmed=%d (%d/
       "| overconfident=%d (%d actual errors) | inject level=%.2f"
       % (n_p, 100*n_p/len(df), n_cf, err_cf, n_cf, 100*err_cf/max(n_cf,1), n_of, err_of, CONF_LEVEL))
 print("Top 5 triage:", op.head(5)[['rank','Participant_ID','attn','dominant_mode','fails']].to_dict('records'))
-print("20_RT rank:", int(op.loc[op.Participant_ID.astype(str).str.contains('20_RT'),'rank'].iloc[0]))
