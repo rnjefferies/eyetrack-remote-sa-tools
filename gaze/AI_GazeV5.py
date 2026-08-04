@@ -390,7 +390,7 @@ def main(config_path):
                                 x, y, w, h = min(x1, x2), min(y1, y2), abs(x2 - x1), abs(y2 - y1)
                                 drawn_overrides[idx] = [x, y, w, h]
                                 
-                                # SMART TRACKER INITIALIZATION
+                                # Initialise the optical tracker
                                 try:
                                     tracker = cv2.TrackerCSRT_create()
                                 except AttributeError:
@@ -432,7 +432,7 @@ def main(config_path):
                     base_class_name = ai_model.names[int(cls)]
                     
                     # ==========================================
-                    # SPATIAL ANCHORING: THE WHEEL FIX
+                    # Spatial anchoring for the wheel region
                     # ==========================================
                     if base_class_name in ['lwheel', 'rwheel']:
                         center_x = x + (w / 2)
@@ -464,7 +464,7 @@ def main(config_path):
                 
                 if b_start <= true_time_s <= b_end and idx in drawn_overrides:
                     
-                    # UPDATE BOX POSITION BASED ON HEAD MOVEMENT
+                    # Update box position based on head movement
                     if idx in active_cv2_trackers:
                         success, new_box = active_cv2_trackers[idx].update(processing_frame)
                         if success:
@@ -508,7 +508,7 @@ def main(config_path):
     BUFFER_SEC = 15.0 
     aoi_valid_windows = {}
     
-    # ROUTE 3, ROUTE 4, ROUTE 5 SIGNS IMMUNITY LIST
+    # Sign-immunity list for routes 3, 4, and 5
     for base_aoi, q_list in aoi_mapping.items():
         if base_aoi in [
             'bumper', 'speed', 'map', 'lwheel', 'rwheel', 'cone', 'name', 
@@ -670,7 +670,7 @@ def main(config_path):
         current_aoi_bboxes = tracking_data_history.get(f"{current_msec:.2f}", {})
 
        # =========================================================
-        # JSON-DRIVEN DYNAMIC AOI PADDING
+        # JSON-driven dynamic AOI padding
         # =========================================================
         custom_padding = settings.get('aoi_padding', {})
         

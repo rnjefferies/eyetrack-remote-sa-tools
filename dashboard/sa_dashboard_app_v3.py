@@ -1,34 +1,18 @@
-# ===========================================================================
-# sa_dashboard_app.py  --  SA Operator Monitor (live demo dashboard)
-# ===========================================================================
-# A deployment-framed live demo of the SA-state work, restructured around the
-# honest findings. Two layers, deliberately not a single stacked per-probe alarm:
-#   (1) DIAGNOSIS  -- two objective dials (error / latency) + a triggered manual
-#       confidence read-out. The predicted "unsure" dial is retired (weakest detector,
-#       redundant with error); real confidence is captured from the operator instead.
-#   (2) TRIAGE     -- per-operator ranking + drill-in.
-#
-# The drill-in gauges show the RECENT STATE, not a session average: a trailing
-# EWMA over the operator's sequence, with a TREND arrow (rising vs settling) and a
-# PERSISTENCE badge (is the caution sustained?). This is the live-deployment view
-# -- "is this operator dipping NOW, and is it sustained?" -- which beats both a
-# whole-session mean (too lagging) and a single probe (too noisy, raw out-of-fold ROC ~0.65-0.7).
-#
-# Scope note: the study is probe-resolution (the 5 s pre-query window was the
-# validation scaffold showing behaviour predicts the upcoming outcome). A deployed
-# monitor would have NO SA probes; it would stream the same features continuously
-# (dwell on relevant signs/elements from the gaze model + vehicle telemetry) and
-# form this recent-state estimate every few seconds. The trailing EWMA here stands
-# in for that continuous rolling window.
-#
-#   Run:  venv/bin/python sa_dashboard_app.py     then open http://127.0.0.1:8050
-#   Data: built once by _build_dashboard_data.py (validated, calibrated dials).
-#
-# Worked case (default view): operator 20_RT, Route 3 Query 3 (a Sign probe). The
-# single-probe error dial UNDER-flags it (0.12, below Amber), but the recent-state
-# view is already at a SUSTAINED Amber caution (0.18) because the operator was slow to respond on
-# the previous probe -- the dip a continuous monitor would surface before the miss.
-# ===========================================================================
+# ============================================================================
+# sa_dashboard_app_v3.py  —  operator SA-state monitor (live demo dashboard)
+# ============================================================================
+# Purpose:  Dash/Plotly web app presenting the layered SA-state indicator: an
+#           objective diagnosis layer (error and latency dials with a triggered
+#           manual confidence read-out) and a per-operator triage layer with a
+#           recent-state (EWMA) view, trend, and persistence. A deployment-framed
+#           demonstration built on probe-resolution data.
+# Inputs:   SA_Dashboard_Data.csv, SA_Dashboard_Ops.csv, SA_Dashboard_Meta.csv
+#           (built by _build_dashboard_data.py; derived data, not included here)
+# Usage:    python sa_dashboard_app_v3.py   then open http://127.0.0.1:8050
+# Requires: dash, plotly, pandas, numpy, scikit-learn
+# Part of:  EyeTrack Remote-SA Tools (see repo README). Contains no data.
+# ============================================================================
+
 import pandas as pd, numpy as np
 import plotly.graph_objects as go
 from dash import Dash, dcc, html, Input, Output, State, no_update, ctx

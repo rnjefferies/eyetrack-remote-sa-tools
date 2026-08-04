@@ -1,12 +1,16 @@
-# ===========================================================================
-# _build_dashboard_data.py  --  shared cache for the SA live dashboard
-# Recomputes the three VALIDATED, calibrated SA risk dials once and writes:
-#   SA_Dashboard_Data.csv  (probe-level: separate dials, fail/lapse, session order)
-#   SA_Dashboard_Ops.csv   (operator-level: dial means, base-rate LIFT, dominant
-#                           mode [lift-corrected], triage score, rank, coverage)
-# Reused by sa_dashboard_app.py (Dash) and SA_Live_Dashboard_V1.ipynb.
-# Models = preferred reduced-11 set: error XGB(d2), latency RF(d3), unsure LR. Seed 42.
-# ===========================================================================
+# ============================================================================
+# _build_dashboard_data.py  —  build the cached input tables for the SA dashboard
+# ============================================================================
+# Purpose:  Recompute the validated, calibrated SA risk dials once and write the
+#           dashboard's input tables. Uses fixed seeds for reproducibility.
+# Inputs:   the study's model-ready dataset (derived data, not included here)
+# Outputs:  SA_Dashboard_Data.csv (probe-level), SA_Dashboard_Ops.csv
+#           (operator-level), SA_Dashboard_Meta.csv (calibrated thresholds)
+# Usage:    python _build_dashboard_data.py
+# Requires: pandas, numpy, scikit-learn, xgboost
+# Part of:  EyeTrack Remote-SA Tools (see repo README). Contains no data.
+# ============================================================================
+
 import pandas as pd, numpy as np, warnings, os, random
 warnings.filterwarnings('ignore')
 # Determinism guard: fixed seeds + single-threaded XGB so the dials/states are bit-reproducible
