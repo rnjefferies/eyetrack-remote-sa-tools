@@ -41,10 +41,20 @@ driving telemetry, plots them together per route, and allows manual adjustment o
 alignment. `auto_sync_tele.py` is the automated, non-plotting counterpart that writes
 synced telemetry to CSV.
 
+### `dashboard/` — operator SA-state monitor (applied prototype)
+`sa_dashboard_app_v3.py` is a Dash/Plotly web app presenting the layered SA-state
+indicator: an objective diagnosis layer (error and latency dials with a triggered manual
+confidence read-out) and a per-operator triage layer with a recent-state (EWMA) view,
+trend arrow, and persistence badge. It is a deployment-framed demonstration built on
+probe-resolution data. `_build_dashboard_data.py` builds its inputs (`SA_Dashboard_*.csv`)
+from the study dataset; those CSVs are derived data and are not included here, so the app
+requires them to be built first.
+
 ## Requirements
 Python 3. Depending on the tool, key dependencies include OpenCV, ultralytics (YOLO),
-openai-whisper, moviepy, PyQt5, pandas, numpy, scipy, and matplotlib. See
-`recapp/requirements.txt` for the query application; install the others per tool as needed.
+openai-whisper, moviepy, PyQt5, pandas, numpy, scipy, matplotlib, and Dash/Plotly (the
+dashboard). See `recapp/requirements.txt` for the query application; install the others
+per tool as needed.
 
 ## Licence
 MIT. See `LICENSE`.
